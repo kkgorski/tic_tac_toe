@@ -5,13 +5,7 @@ class Board
 public:
 	Board()
 	{
-		for(unsigned int i = 0; i < BOARD_SIZE; i++)
-		{
-			for(unsigned int j = 0; j < BOARD_SIZE; j++)
-			{
-				board[i][j] = ' ';
-			}
-		}
+		initializeEmptyBoard();
 		lastTurnCharacter = 'x';
 	}
 
@@ -32,6 +26,16 @@ public:
 	}
 
 private:
+	void initializeEmptyBoard()
+	{
+		for(unsigned int i = 0; i < BOARD_SIZE; i++)
+		{
+			for(unsigned int j = 0; j < BOARD_SIZE; j++)
+			{
+				board[i][j] = ' ';
+			}
+		}
+	}
 	void drawRow(unsigned int row)
 	{
 		for(unsigned int i = 0; i < BOARD_SIZE; i++)
@@ -49,11 +53,6 @@ private:
 		{
 			std::cout << printable;
 		}
-	}
-
-	void drawSeparatingRow()
-	{
-		std::cout << "-+-+-" << std::endl;
 	}
 
 	char board[BOARD_SIZE][BOARD_SIZE];
