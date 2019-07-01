@@ -27,28 +27,28 @@ public:
 		for(unsigned int i = 0; i < BOARD_SIZE; i++)
 		{
 		        drawRow(i);
-			const unsigned int lastElement = BOARD_SIZE - 1;
-			if(i != lastElement)
-			{
-		        drawSeparatingRow();
-			}
+		        printIfNotLast(i,"-+-+-\n");
 		}
 	}
 
 private:
-
 	void drawRow(unsigned int row)
 	{
 		for(unsigned int i = 0; i < BOARD_SIZE; i++)
 		{
 			std::cout << board[row][i];
-			const unsigned int lastElement = BOARD_SIZE - 1;
-			if(i != lastElement)
-			{
-				std::cout << "|";
-			}
+		        printIfNotLast(i,"|");
 		}
 		std::cout << std::endl;
+	}
+
+	void printIfNotLast(unsigned int it, std::string printable)
+	{
+		const unsigned int lastElement = BOARD_SIZE - 1;
+		if(it != lastElement)
+		{
+			std::cout << printable;
+		}
 	}
 
 	void drawSeparatingRow()
