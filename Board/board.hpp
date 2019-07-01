@@ -24,11 +24,15 @@ public:
 
 	void drawScreen()
 	{
-		drawRow(0);
-		drawSeparatingRow();
-		drawRow(1);
-		drawSeparatingRow();
-		drawRow(2);
+		for(unsigned int i = 0; i < BOARD_SIZE; i++)
+		{
+		        drawRow(i);
+			const unsigned int lastElement = BOARD_SIZE - 1;
+			if(i != lastElement)
+			{
+		        drawSeparatingRow();
+			}
+		}
 	}
 
 private:
