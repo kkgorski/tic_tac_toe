@@ -74,6 +74,12 @@ private:
 				return true;
 			}
 		}
+
+		if(checkIfDiagonalAIs(character) || checkIfDiagonalBIs(character))
+		{
+			return true;
+		}
+
 		return false;
 	}
 
@@ -101,6 +107,29 @@ private:
 		return true;
 	}
 
+	bool checkIfDiagonalAIs(char character)
+	{
+		for(unsigned int i = 0; i < BOARD_SIZE; i++)
+		{
+			if((character != board[i][i]))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	bool checkIfDiagonalBIs(char character)
+	{
+		for(unsigned int i = 0; i < BOARD_SIZE; i++)
+		{
+			if(character != board[i][(BOARD_SIZE - 1) - i])
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 	char board[BOARD_SIZE][BOARD_SIZE];
 	char lastTurnCharacter;
 };
