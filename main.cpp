@@ -1,10 +1,12 @@
 #include <iostream>
 #include <Board/board.hpp>
+#include <Solver/solver.hpp>
 
 
 int main()
 {
 	Board board;
+	Solver solver = Solver(board);
 
 	while(true)
 	{
