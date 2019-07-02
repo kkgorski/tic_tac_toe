@@ -25,6 +25,16 @@ public:
 		}
 	}
 
+	bool checkIfxWon()
+	{
+		return checkIfCharacterWon('x');
+	}
+
+	bool checkIfoWon()
+	{
+		return checkIfCharacterWon('o');
+	}
+
 private:
 	void initializeEmptyBoard()
 	{
@@ -53,6 +63,42 @@ private:
 		{
 			std::cout << printable;
 		}
+	}
+
+	bool checkIfCharacterWon(char character)
+	{
+		for(unsigned int i = 0; i < BOARD_SIZE; i++)
+		{
+			if(checkIfColumnIs(character, i) || checkIfRowIs(character, i))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool checkIfColumnIs(char character, unsigned int column)
+	{
+		for(unsigned int i = 0; i < BOARD_SIZE; i++)
+		{
+			if(character != board[i][column])
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	bool checkIfRowIs(char character, unsigned int row)
+	{
+		for(unsigned int i = 0; i < BOARD_SIZE; i++)
+		{
+			if(character != board[row][i])
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	char board[BOARD_SIZE][BOARD_SIZE];

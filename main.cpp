@@ -16,6 +16,14 @@ int main()
 	        std::cin >> y;
 		board.markField(x,y);
 		board.drawScreen();
+		if(board.checkIfxWon())
+		{
+			std::cout << "!!! x won !!!" << std::endl;
+		}
+		if(board.checkIfoWon())
+		{
+			std::cout << "!!! o won !!!" << std::endl;
+		}
 	}
 }
 
