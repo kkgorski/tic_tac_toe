@@ -86,19 +86,22 @@ private:
 
 	bool checkIfCharacterWon(char character)
 	{
-		for(unsigned int i = 0; i < BOARD_SIZE; i++)
+		bool won;
+		for (charVectorList::iterator charVectorIt = combinationList.begin(); charVectorIt != combinationList.end(); ++charVectorIt)
 		{
-			if(checkIfColumnIs(character, i) || checkIfRowIs(character, i))
+			won = true;
+			for (charVector::iterator it = charVectorIt->begin(); it != charVectorIt->end(); ++it)
 			{
-				return true;
+				if(character != *(it))
+				{
+					won = false;
+				}
+			}
+			if(won)
+			{
+				return won;
 			}
 		}
-
-		if(checkIfDiagonalAIs(character) || checkIfDiagonalBIs(character))
-		{
-			return true;
-		}
-
 		return false;
 	}
 
