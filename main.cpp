@@ -18,6 +18,7 @@ int main()
 	        std::cin >> y;
 		board.markField(x,y);
 		board.drawScreen();
+                board.printCombinations();
 		if(board.checkIfxWon())
 		{
 			std::cout << "!!! x won !!!" << std::endl;

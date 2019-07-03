@@ -1,3 +1,6 @@
+#include <list>
+#include <vector>
+
 #define BOARD_SIZE 3
 
 #pragma once
@@ -8,7 +11,20 @@ public:
 	Board()
 	{
 		initializeEmptyBoard();
+		initializeCombinations();
 		lastTurnCharacter = 'x';
+	}
+
+	void printCombinations()
+	{
+	for (charVectorList::iterator charVectorIt = combinationList.begin(); charVectorIt != combinationList.end(); ++charVectorIt)
+	{
+		for (charVector::iterator it = charVectorIt->begin(); it != charVectorIt->end(); ++it)
+		{
+			std::cout << *(it) << "|";
+		}
+		std::cout << std::endl;
+	}
 	}
 
 	void markField(unsigned int x, unsigned int y)
@@ -16,6 +32,7 @@ public:
 		const char character = (lastTurnCharacter == 'x') ? 'o' : 'x';
 		board[y][x] = character;
 		lastTurnCharacter = character;
+		initializeCombinations(); //to be removed from here
 	}
 
 	void drawScreen()
@@ -132,6 +149,35 @@ private:
 		}
 		return true;
 	}
+
+	void initializeCombinations()
+	{
+		combinationList.clear();
+		for(unsigned int column = 0; column < BOARD_SIZE; column++)
+		{
+			charVector row;
+			for(unsigned int i = 0; i < BOARD_SIZE; i++)
+			{
+				row.push_back(board[i][column]);
+			}
+                        combinationList.push_back(row);
+		}
+
+		for(unsigned int row = 0; row < BOARD_SIZE; row++)
+		{
+			charVector column;
+			for(unsigned int i = 0; i < BOARD_SIZE; i++)
+			{
+				column.push_back(board[row][i]);
+			}
+                        combinationList.push_back(column);
+		}
+	}
+
+	typedef std::vector<char> charVector;
+	typedef std::list<charVector> charVectorList;
+
+	charVectorList combinationList;
 	char board[BOARD_SIZE][BOARD_SIZE];
 	char lastTurnCharacter;
 };
