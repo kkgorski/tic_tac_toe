@@ -17,14 +17,14 @@ public:
 
 	void printCombinations()
 	{
-	for (charVectorList::iterator charVectorIt = combinationList.begin(); charVectorIt != combinationList.end(); ++charVectorIt)
-	{
-		for (charVector::iterator it = charVectorIt->begin(); it != charVectorIt->end(); ++it)
+		for (charVectorList::iterator charVectorIt = combinationList.begin(); charVectorIt != combinationList.end(); ++charVectorIt)
 		{
-			std::cout << *(it) << "|";
+			for (charVector::iterator it = charVectorIt->begin(); it != charVectorIt->end(); ++it)
+			{
+				std::cout << *(it) << "|";
+			}
+			std::cout << std::endl;
 		}
-		std::cout << std::endl;
-	}
 	}
 
 	void markField(unsigned int x, unsigned int y)
