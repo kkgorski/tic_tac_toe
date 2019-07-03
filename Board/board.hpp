@@ -105,54 +105,6 @@ private:
 		return false;
 	}
 
-	bool checkIfColumnIs(char character, unsigned int column)
-	{
-		for(unsigned int i = 0; i < BOARD_SIZE; i++)
-		{
-			if(character != board[i][column])
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-
-	bool checkIfRowIs(char character, unsigned int row)
-	{
-		for(unsigned int i = 0; i < BOARD_SIZE; i++)
-		{
-			if(character != board[row][i])
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-
-	bool checkIfDiagonalAIs(char character)
-	{
-		for(unsigned int i = 0; i < BOARD_SIZE; i++)
-		{
-			if((character != board[i][i]))
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-
-	bool checkIfDiagonalBIs(char character)
-	{
-		for(unsigned int i = 0; i < BOARD_SIZE; i++)
-		{
-			if(character != board[i][(BOARD_SIZE - 1) - i])
-			{
-				return false;
-			}
-		}
-		return true;
-	}
-
 	void initializeCombinations()
 	{
 		combinationList.clear();
