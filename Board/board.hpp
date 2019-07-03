@@ -172,6 +172,19 @@ private:
 			}
                         combinationList.push_back(column);
 		}
+		charVector diagonalA;
+		for(unsigned int i = 0; i < BOARD_SIZE; i++)
+		{
+			diagonalA.push_back(board[i][i]);
+		}
+
+                combinationList.push_back(diagonalA);
+		charVector diagonalB;
+		for(unsigned int i = 0; i < BOARD_SIZE; i++)
+		{
+			diagonalB.push_back(board[i][(BOARD_SIZE - 1) - i]);
+		}
+                combinationList.push_back(diagonalB);
 	}
 
 	typedef std::vector<char> charVector;
