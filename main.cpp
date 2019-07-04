@@ -7,8 +7,6 @@
 int main()
 {
 	Board board;
-	Solver solver = Solver(board);
-	Combinations combinations = Combinations(board.getBoard());
 
 	while(true)
 	{
@@ -18,10 +16,16 @@ int main()
 	        std::cin >> x;
 	        std::cout << "Give me coordinate y" << std::endl;
 	        std::cin >> y;
+
 		board.markField(x,y);
-		combinations = Combinations(board.getBoard());
+
+		Combinations combinations = Combinations(board.getBoard());
+		Solver solver = Solver(combinations.getCombinationList());
+
 		board.drawScreen();
+
 		combinations.print();
+
 		if(combinations.checkIfxWon())
 		{
 			std::cout << "!!! x won !!!" << std::endl;

@@ -1,13 +1,16 @@
-#include <Board/board.hpp>
+#include <Combinations/combinations.hpp>
 
 #pragma once
 
 class Solver
 {
+typedef std::vector<char> charVector;
+typedef std::list<charVector> charVectorList;
+typedef std::vector<charVector> charVectorVector;
 public:
-	Solver(Board& _board) : board(_board){}
+	Solver(charVectorList _combinationList) : combinationList(_combinationList){}
 	void solve(){}
 private:
-	Board& board;
+	charVectorList combinationList;
 };
 

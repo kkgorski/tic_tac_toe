@@ -66,6 +66,11 @@ public:
 		return checkIfCharacterWon('o');
 	}
 
+	charVectorList getCombinationList()
+	{
+		return combinationList;
+	}
+
 private:
 	bool checkIfCharacterWon(char characterToWin)
 	{
