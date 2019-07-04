@@ -1,12 +1,10 @@
+#include <Global/global.hpp>
 #include <Board/board.hpp>
 
 #pragma once
 
 class Combinations  
 {
-typedef std::vector<char> charVector;
-typedef std::list<charVector> charVectorList;
-typedef std::vector<charVector> charVectorVector;
 public:
 	Combinations(charVectorVector board)
 	{

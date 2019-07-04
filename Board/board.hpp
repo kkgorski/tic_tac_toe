@@ -1,5 +1,4 @@
-#include <list>
-#include <vector>
+#include <Global/global.hpp>
 
 #define BOARD_SIZE 3
 
@@ -7,8 +6,6 @@
 
 class Board
 {
-typedef std::vector<char> charVector;
-typedef std::vector<charVector> charVectorVector;
 public:
 
 	Board(unsigned int boardSize = 3) : board(charVectorVector(boardSize, charVector (boardSize, ' '))),
