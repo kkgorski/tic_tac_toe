@@ -7,21 +7,24 @@
 
 class Board
 {
+typedef std::vector<char> charVector;
+typedef std::list<charVector> charVectorList;
+typedef std::vector<charVector> charVectorVector;
 public:
-	Board()
+	Board(unsigned int boardSize = 3)
 	{
-		initializeEmptyBoard();
+		initializeEmptyBoard(boardSize);
 		initializeCombinations();
 		lastTurnCharacter = 'x';
 	}
 
 	void printCombinations()
 	{
-		for (charVectorList::iterator charVectorIt = combinationList.begin(); charVectorIt != combinationList.end(); ++charVectorIt)
+		for(auto const& combination: combinationList)
 		{
-			for (charVector::iterator it = charVectorIt->begin(); it != charVectorIt->end(); ++it)
+			for(auto const& field: combination)
 			{
-				std::cout << *(it) << "|";
+				std::cout << field << "|";
 			}
 			std::cout << std::endl;
 		}
@@ -37,10 +40,13 @@ public:
 
 	void drawScreen()
 	{
-		for(unsigned int i = 0; i < BOARD_SIZE; i++)
+		for(auto const& row: board)
 		{
-		        drawRow(i);
-		        printIfNotLast(i,"-+-+-\n");
+		        drawRow(row);
+			if(&row != &board.back())
+			{
+				std::cout << "-+-+-\n";
+			}
 		}
 	}
 
@@ -55,27 +61,22 @@ public:
 	}
 
 private:
-	void initializeEmptyBoard()
+	void initializeEmptyBoard(unsigned int boardSize)
 	{
-		board = charVectorVector(BOARD_SIZE, charVector (BOARD_SIZE, ' '));
-	}
-	void drawRow(unsigned int row)
-	{
-		for(unsigned int i = 0; i < BOARD_SIZE; i++)
-		{
-			std::cout << board[row][i];
-		        printIfNotLast(i,"|");
-		}
-		std::cout << std::endl;
+		board = charVectorVector(boardSize, charVector (boardSize, ' '));
 	}
 
-	void printIfNotLast(unsigned int it, std::string printable)
+	void drawRow(charVector row)
 	{
-		const unsigned int lastElement = BOARD_SIZE - 1;
-		if(it != lastElement)
+		for(auto const& character: row)
 		{
-			std::cout << printable;
+			std::cout << character; 
+			if(&character != &row.back())
+			{
+				std::cout << "|";
+			}
 		}
+		std::cout << std::endl;
 	}
 
 	bool checkIfCharacterWon(char character)
@@ -111,7 +112,6 @@ private:
 			}
                         combinationList.push_back(row);
 		}
-
 		for(unsigned int row = 0; row < BOARD_SIZE; row++)
 		{
 			charVector column;
@@ -136,9 +136,6 @@ private:
                 combinationList.push_back(diagonalB);
 	}
 
-	typedef std::vector<char> charVector;
-	typedef std::list<charVector> charVectorList;
-	typedef std::vector<charVector> charVectorVector;
 
 	charVectorList combinationList;
 	charVectorVector board; 
