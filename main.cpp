@@ -1,12 +1,14 @@
 #include <iostream>
 #include <Board/board.hpp>
 #include <Solver/solver.hpp>
+#include <Combinations/combinations.hpp>
 
 
 int main()
 {
 	Board board;
 	Solver solver = Solver(board);
+	Combinations combinations = Combinations(board.getBoard());
 
 	while(true)
 	{
@@ -17,13 +19,14 @@ int main()
 	        std::cout << "Give me coordinate y" << std::endl;
 	        std::cin >> y;
 		board.markField(x,y);
+		combinations = Combinations(board.getBoard());
 		board.drawScreen();
-                board.printCombinations();
-		if(board.checkIfxWon())
+		combinations.print();
+		if(combinations.checkIfxWon())
 		{
 			std::cout << "!!! x won !!!" << std::endl;
 		}
-		if(board.checkIfoWon())
+		if(combinations.checkIfoWon())
 		{
 			std::cout << "!!! o won !!!" << std::endl;
 		}
