@@ -7,17 +7,16 @@
 int main()
 {
 	Board board;
+	Point point;
 
 	while(true)
 	{
-		unsigned int x;
-		unsigned int y;
 	        std::cout << "Give me coordinate x" << std::endl;
-	        std::cin >> x;
+	        std::cin >> point.x;
 	        std::cout << "Give me coordinate y" << std::endl;
-	        std::cin >> y;
+	        std::cin >> point.y;
 
-		board.markField(x,y);
+		board.markField(point);
 
 		Combinations combinations = Combinations(board.getBoard());
 		Solver solver = Solver(combinations.getCombinationList());

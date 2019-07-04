@@ -9,10 +9,10 @@ public:
 	Board(unsigned int boardSize = 3) : board(charVectorVector(boardSize, charVector (boardSize, ' '))),
 					    lastTurnCharacter('x'){}
 
-	void markField(unsigned int x, unsigned int y)
+	void markField(Point point)
 	{
 		const char character = (lastTurnCharacter == 'x') ? 'o' : 'x';
-		board[y][x] = character;
+		board[point.y][point.x] = character;
 		lastTurnCharacter = character;
 	}
 
