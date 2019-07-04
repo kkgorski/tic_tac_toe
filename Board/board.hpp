@@ -57,13 +57,7 @@ public:
 private:
 	void initializeEmptyBoard()
 	{
-		for(unsigned int i = 0; i < BOARD_SIZE; i++)
-		{
-			for(unsigned int j = 0; j < BOARD_SIZE; j++)
-			{
-				board[i][j] = ' ';
-			}
-		}
+		board = charVectorVector(BOARD_SIZE, charVector (BOARD_SIZE, ' '));
 	}
 	void drawRow(unsigned int row)
 	{
@@ -144,9 +138,10 @@ private:
 
 	typedef std::vector<char> charVector;
 	typedef std::list<charVector> charVectorList;
+	typedef std::vector<charVector> charVectorVector;
 
 	charVectorList combinationList;
-	char board[BOARD_SIZE][BOARD_SIZE];
+	charVectorVector board; 
 	char lastTurnCharacter;
 };
 
