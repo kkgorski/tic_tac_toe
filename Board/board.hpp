@@ -1,7 +1,5 @@
 #include <Global/global.hpp>
 
-#define BOARD_SIZE 3
-
 #pragma once
 
 class Board

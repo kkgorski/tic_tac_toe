@@ -1,5 +1,4 @@
 #include <Global/global.hpp>
-#include <Board/board.hpp>
 
 #pragma once
 
@@ -8,36 +7,37 @@ class Combinations
 public:
 	Combinations(charVectorVector board)
 	{
+		const unsigned int boardSize = board.size();
 		combinationList.clear();
-		for(unsigned int column = 0; column < BOARD_SIZE; column++)
+		for(unsigned int column = 0; column < boardSize; column++)
 		{
 			charVector row;
-			for(unsigned int i = 0; i < BOARD_SIZE; i++)
+			for(unsigned int i = 0; i < boardSize; i++)
 			{
 				row.push_back(board[i][column]);
 			}
                         combinationList.push_back(row);
 		}
-		for(unsigned int row = 0; row < BOARD_SIZE; row++)
+		for(unsigned int row = 0; row < boardSize; row++)
 		{
 			charVector column;
-			for(unsigned int i = 0; i < BOARD_SIZE; i++)
+			for(unsigned int i = 0; i < boardSize; i++)
 			{
 				column.push_back(board[row][i]);
 			}
                         combinationList.push_back(column);
 		}
 		charVector diagonalA;
-		for(unsigned int i = 0; i < BOARD_SIZE; i++)
+		for(unsigned int i = 0; i < boardSize; i++)
 		{
 			diagonalA.push_back(board[i][i]);
 		}
 
                 combinationList.push_back(diagonalA);
 		charVector diagonalB;
-		for(unsigned int i = 0; i < BOARD_SIZE; i++)
+		for(unsigned int i = 0; i < boardSize; i++)
 		{
-			diagonalB.push_back(board[i][(BOARD_SIZE - 1) - i]);
+			diagonalB.push_back(board[i][(boardSize - 1) - i]);
 		}
                 combinationList.push_back(diagonalB);
 	}
