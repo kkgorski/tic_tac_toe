@@ -6,7 +6,14 @@ class Solver
 {
 public:
 	Solver(charVectorList _combinationList) : combinationList(_combinationList){}
-	void solve(){}
+	Point primitiveSolve()
+	{
+		Point point;
+		const unsigned int boardSize = combinationList.front().size();
+		point.x = rand() % boardSize;
+		point.y = rand() % boardSize;
+		return point;
+	}
 private:
 	charVectorList combinationList;
 };

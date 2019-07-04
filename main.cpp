@@ -7,23 +7,25 @@
 int main()
 {
 	Board board;
-	Point point;
+	Point userPoint;
 
 	while(true)
 	{
 	        std::cout << "Give me coordinate x" << std::endl;
-	        std::cin >> point.x;
+	        std::cin >> userPoint.x;
 	        std::cout << "Give me coordinate y" << std::endl;
-	        std::cin >> point.y;
+	        std::cin >> userPoint.y;
 
-		board.markField(point);
+		board.markField(userPoint);
+		board.drawScreen();
 
 		Combinations combinations = Combinations(board.getBoard());
 		Solver solver = Solver(combinations.getCombinationList());
+		Point solverPoint = solver.primitiveSolve();
 
+	        std::cout << "Computer's coordinates are x:" << solverPoint.x << " y: " << solverPoint.y << std::endl;
+		board.markField(solverPoint);
 		board.drawScreen();
-
-		combinations.print();
 
 		if(combinations.checkIfxWon())
 		{
