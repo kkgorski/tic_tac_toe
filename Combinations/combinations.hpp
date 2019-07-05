@@ -5,9 +5,8 @@
 class Combinations  
 {
 public:
-	Combinations(charVectorVector board)
+	Combinations(charVectorVector board) : boardSize(board.size())
 	{
-		const unsigned int boardSize = board.size();
 		combinationList.clear();
 		for(unsigned int column = 0; column < boardSize; column++)
 		{
@@ -90,7 +89,7 @@ private:
 		}
 		return false;
 	}
-
+	const unsigned int boardSize;
 	charVectorList combinationList;
 };
 

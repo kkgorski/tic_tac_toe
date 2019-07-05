@@ -16,7 +16,16 @@ int main()
 	        std::cout << "Give me coordinate y" << std::endl;
 	        std::cin >> userPoint.y;
 
-		board.markField(userPoint);
+		try
+		{
+			board.markField(userPoint);
+		}
+		catch(std::invalid_argument exception)
+		{
+			std::cerr << exception.what();
+			continue;
+		}
+
 		board.drawScreen();
 
 		Combinations combinations = Combinations(board.getBoard());
