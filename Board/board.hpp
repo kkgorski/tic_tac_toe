@@ -1,4 +1,5 @@
 #include <Global/global.hpp>
+#include <ncurses.h>
 
 #pragma once
 
@@ -32,6 +33,32 @@ public:
 				std::cout << "-+-+-\n";
 			}
 		}
+	}
+
+	void drawMenu()
+	{
+		WINDOW *window;
+		char itemArray[5][9] = { "Choice 1", "Choice 2", "Choice 3", "Choice 4", "Exit" };
+		char item[9];
+		initscr();
+		window = newwin (10, 12, 1, 1);
+		box (window, 0, 0);
+
+		for(unsigned int i = 0; i < 5; ++i)
+		{
+			wattroff(window, A_STANDOUT);
+			sprintf(item, "%-7s", itemArray[i]);
+			mvwprintw(window, i+1, 2, "%s", item);
+		}
+
+		wrefresh(window);
+
+
+		cbreak();
+		noecho();
+		
+		clear();
+
 	}
 
 	const charVectorVector& getBoard() const

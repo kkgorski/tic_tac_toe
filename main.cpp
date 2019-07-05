@@ -11,11 +11,14 @@ int main()
 
 	while(true)
 	{
+		/*
 	        std::cout << "Give me coordinate x" << std::endl;
 	        std::cin >> userPoint.x;
 	        std::cout << "Give me coordinate y" << std::endl;
 	        std::cin >> userPoint.y;
-
+*/
+		board.drawMenu();
+/*
 		try
 		{
 			board.markField(userPoint);
@@ -44,6 +47,7 @@ int main()
 		{
 			std::cout << "!!! o won !!!" << std::endl;
 		}
+		*/
 	}
 }
 
