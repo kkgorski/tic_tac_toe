@@ -1,21 +1,24 @@
 #include <Global/global.hpp>
 //////////////////#include <ncurses.h>
 
+
 //from tutorial
 #include <curses.h>
 #include <menu.h>
-
+#include <string.h>
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define CTRLD 	4
 
 char *choices[] = {
-                        "1", "2", "3", "4", "5",
-			"6", "7", "8", "9",
+                        " ", " ", " ", " ", " ",
+			" ", " ", " ", " ",
                         (char *)NULL,
                   };
 // from tutorial
 
 #pragma once
+
+#define MY_KEY_ENTER 10
 
 class Board
 {
@@ -100,28 +103,67 @@ public:
 	/* Post the menu */
 	post_menu(my_menu);
 	wrefresh(my_menu_win);
+
+	int errorCode = 0;
 	
 	while((c = wgetch(my_menu_win)) != KEY_F(1))
 	{       switch(c)
 	        {	case KEY_DOWN:
+				mvprintw(LINES - 4, 0, "DOWN");
 				menu_driver(my_menu, REQ_DOWN_ITEM);
 				break;
 			case KEY_UP:
+				mvprintw(LINES - 4, 0, "UP");
 				menu_driver(my_menu, REQ_UP_ITEM);
 				break;
 			case KEY_LEFT:
+				mvprintw(LINES - 4, 0, "LEFT");
 				menu_driver(my_menu, REQ_LEFT_ITEM);
 				break;
 			case KEY_RIGHT:
+				mvprintw(LINES - 4, 0, "RIGHT");
 				menu_driver(my_menu, REQ_RIGHT_ITEM);
 				break;
-			case KEY_NPAGE:
-				menu_driver(my_menu, REQ_SCR_DPAGE);
-				break;
-			case KEY_PPAGE:
-				menu_driver(my_menu, REQ_SCR_UPAGE);
+			case MY_KEY_ENTER:
+				char* character;
+				//choices[0] = character;
+				ITEM * currentItem = current_item(my_menu);
+ 				/*
+				ITEM * newItem = new_item(character, character);
+				if(NULL == newItem)
+					mvprintw(LINES - 5, 0, "wyjebalo item");
+				*/
+				if (currentItem->name.str!=NULL)
+				{
+					mvprintw(LINES - 6, 0, currentItem->name.str);
+					character = strdup("x");
+					currentItem->name.length = 1;
+					currentItem->name.str = character;
+				}
+
+				
+				errorCode = set_current_item(my_menu, currentItem);
+				switch(errorCode)
+				{
+					case E_BAD_ARGUMENT:
+						mvprintw(LINES - 5, 0, "E_BAD_ARGUMENT");
+						break;
+					case E_BAD_STATE:
+						mvprintw(LINES - 5, 0, "E_BAD_STATE");
+	    					break;
+					case E_NOT_CONNECTED:
+						mvprintw(LINES - 5, 0, "E_NOT_CONNECTED");
+						break;
+					case E_SYSTEM_ERROR:
+						mvprintw(LINES - 5, 0, "E_SYSTEM_ERROR");
+						break;
+					default:
+						break;
+				}
+				mvprintw(LINES - 4, 0, "ENTER");
 				break;
 		}
+		refresh(); //for debugging
                 wrefresh(my_menu_win);
 	}	
 
