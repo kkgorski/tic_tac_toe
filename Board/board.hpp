@@ -1,19 +1,13 @@
 #include <Global/global.hpp>
-//////////////////#include <ncurses.h>
+#include <ncurses.h>
 
 
 //from tutorial
-#include <curses.h>
+#include <ncurses.h>
 #include <menu.h>
 #include <string.h>
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define CTRLD 	4
-
-char *choices[] = {
-                        " ", " ", " ", " ", " ",
-			" ", " ", " ", " ",
-                        (char *)NULL,
-                  };
 // from tutorial
 
 #pragma once
@@ -28,7 +22,8 @@ public:
 					     board(charVectorVector(boardSize, charVector (boardSize, ' '))),
 					     lastTurnCharacter('x')
 	{
-		initializeNcurses();
+		initializeNcursesScreen();
+		initializeNcursesItems();
 	}
 
 	void markField(Point point)
@@ -57,17 +52,9 @@ public:
 
 	void drawMenu()
 	{
-		//from tutorial
-	int c;				
-        int n_choices, i;
+	//from tutorial
 	
-	/* Initialize curses */
-
-	/* Create items */
-        n_choices = ARRAY_SIZE(choices);
-        my_items = (ITEM **)calloc(n_choices, sizeof(ITEM *));
-        for(i = 0; i < n_choices; ++i)
-                my_items[i] = new_item(choices[i], choices[i]);
+        //n_choices = ARRAY_SIZE(choices);
 
 	/* Crate menu */
 	my_menu = new_menu((ITEM **)my_items);
@@ -99,6 +86,7 @@ public:
 
 	int errorCode = 0;
 	
+	int c;
 	while((c = wgetch(my_menu_win)) != KEY_F(1))
 	{       switch(c)
 	        {	case KEY_DOWN:
@@ -153,12 +141,6 @@ public:
                 wrefresh(my_menu_win);
 	}	
 
-	/* Unpost and free all the memory taken up */
-        unpost_menu(my_menu);
-        free_menu(my_menu);
-        for(i = 0; i < n_choices; ++i)
-                free_item(my_items[i]);
-	endwin();
 	//from tutorial
 	}
 
@@ -182,7 +164,7 @@ private:
 		std::cout << std::endl;
 	}
 
-	void initializeNcurses()
+	void initializeNcursesScreen()
 	{
 		initscr();
 		start_color();
@@ -191,11 +173,36 @@ private:
 		keypad(stdscr, TRUE);
 		init_pair(1, COLOR_RED, COLOR_BLACK);
 		init_pair(2, COLOR_CYAN, COLOR_BLACK);
+
+	}
+
+	void initializeNcursesItems()
+	{
+		const char * empty = " ";
+		const unsigned int numOfBoardElements = boardSize * boardSize;
+		my_items = (ITEM **)calloc(numOfBoardElements + 1, sizeof(ITEM *));
+		for(unsigned int i = 0; i < numOfBoardElements; ++i)
+		{
+		      my_items[i] = new_item(empty, empty);
+		}
+	}
+
+	void destroyNcurses()
+	{
+		unpost_menu(my_menu);
+		free_menu(my_menu);
+		const unsigned int numOfBoardElements = boardSize * boardSize;
+		for(unsigned int i = 0; i < numOfBoardElements; ++i)
+		{
+			free_item(my_items[i]);
+		}
+		endwin();
 	}
 
 	ITEM **my_items;
 	MENU *my_menu;
         WINDOW *my_menu_win;
+
 	unsigned int boardSize;
 	charVectorVector board; 
 	char lastTurnCharacter;
