@@ -54,40 +54,41 @@ public:
 
 	void play()
 	{
-	int c;
-	while((c = wgetch(my_menu_win)) != KEY_F(1))
-	{       switch(c)
-	        {	case KEY_DOWN:
-				mvprintw(LINES - 4, 0, "DOWN");
-				menu_driver(my_menu, REQ_DOWN_ITEM);
-				break;
-			case KEY_UP:
-				mvprintw(LINES - 4, 0, "UP");
-				menu_driver(my_menu, REQ_UP_ITEM);
-				break;
-			case KEY_LEFT:
-				mvprintw(LINES - 4, 0, "LEFT");
-				menu_driver(my_menu, REQ_LEFT_ITEM);
-				break;
-			case KEY_RIGHT:
-				mvprintw(LINES - 4, 0, "RIGHT");
-				menu_driver(my_menu, REQ_RIGHT_ITEM);
-				break;
-			case MY_KEY_ENTER:
-				ITEM * currentItem = current_item(my_menu);
-				if (currentItem->name.str!=NULL)
-				{
-					mvprintw(LINES - 6, 0, currentItem->name.str);
-					char* character = strdup("x");
-					currentItem->name.length = 1;
-					currentItem->name.str = character;
-				}
-				mvprintw(LINES - 4, 0, "ENTER");
-				break;
-		}
-		refresh(); //for debugging
-                wrefresh(my_menu_win);
-	}	
+		int c;
+		while((c = wgetch(my_menu_win)) != KEY_F(1))
+		{
+			switch(c)
+			{	case KEY_DOWN:
+					mvprintw(LINES - 4, 0, "DOWN");
+					menu_driver(my_menu, REQ_DOWN_ITEM);
+					break;
+				case KEY_UP:
+					mvprintw(LINES - 4, 0, "UP");
+					menu_driver(my_menu, REQ_UP_ITEM);
+					break;
+				case KEY_LEFT:
+					mvprintw(LINES - 4, 0, "LEFT");
+					menu_driver(my_menu, REQ_LEFT_ITEM);
+					break;
+				case KEY_RIGHT:
+					mvprintw(LINES - 4, 0, "RIGHT");
+					menu_driver(my_menu, REQ_RIGHT_ITEM);
+					break;
+				case MY_KEY_ENTER:
+					ITEM * currentItem = current_item(my_menu);
+					if (currentItem->name.str!=NULL)
+					{
+						mvprintw(LINES - 6, 0, currentItem->name.str);
+						char* character = strdup("x");
+						currentItem->name.length = 1;
+						currentItem->name.str = character;
+					}
+					mvprintw(LINES - 4, 0, "ENTER");
+					break;
+			}
+			refresh(); //for debugging
+			wrefresh(my_menu_win);
+		}	
 	}
 
 	const charVectorVector& getBoard() const
