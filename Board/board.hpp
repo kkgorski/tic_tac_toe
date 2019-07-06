@@ -46,19 +46,51 @@ public:
 
 		for(unsigned int i = 0; i < 5; ++i)
 		{
+			if(0 == i)
+			{
+				wattron(window, A_STANDOUT);
+			}
+			else
+			{
 			wattroff(window, A_STANDOUT);
+			}
 			sprintf(item, "%-7s", itemArray[i]);
 			mvwprintw(window, i+1, 2, "%s", item);
 		}
 
 		wrefresh(window);
-
-
-		cbreak();
+		cbreak(); //?
 		noecho();
-		
-		clear();
+		keypad(window, TRUE);
+		curs_set(0);
 
+		int character = 0;
+		int i = 0;
+		while((character = wgetch(window)) != 'q')
+		{
+			sprintf(item, "%-7s", itemArray[i]);
+			mvwprintw(window, i+1, 2, "%s", item);
+			switch(character)
+			{
+				case KEY_UP:
+					i--;
+					i = (i < 0) ? 4 : i;
+					break;
+				case KEY_DOWN:
+					i++;
+					i = (i > 4) ? 0 : i;
+					break;
+			}
+			wattron(window, A_STANDOUT);
+
+			sprintf(item, "%-7s", itemArray[i]);
+			mvwprintw(window, i+1, 2, "%s", item);
+			wattroff(window, A_STANDOUT);
+		}
+
+		clear();
+		delwin( window );
+		endwin();
 	}
 
 	const charVectorVector& getBoard() const
