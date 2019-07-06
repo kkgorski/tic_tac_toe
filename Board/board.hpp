@@ -17,6 +17,8 @@ public:
 	{
 		initializeNcursesScreen();
 		initializeNcursesItems();
+		initializeNcursesMenu();
+		initializeNcursesUserInstructions();
 	}
 
 	void markField(Point point)
@@ -45,30 +47,6 @@ public:
 
 	void drawMenu()
 	{
-	//from tutorial
-
-	/* Crate menu */
-	my_menu = new_menu((ITEM **)my_items);
-
-	/* Set menu option not to show the description */
-	menu_opts_off(my_menu, O_SHOWDESC);
-
-	/* Create the window to be associated with the menu */
-	my_menu_win = newwin(5, 11, 2, 6);
-        keypad(my_menu_win, TRUE);
-     
-	/* Set main window and sub window */
-        set_menu_win(my_menu, my_menu_win);
-        set_menu_sub(my_menu, derwin(my_menu_win, 3, 10, 1, 1));
-	set_menu_format(my_menu, 3, 3);
-
-	/* Print a border around the main window and print a title */
-        box(my_menu_win, 0, 0);
-	
-	attron(COLOR_PAIR(2));
-	mvprintw(LINES - 3, 0, "Use PageUp and PageDown to scroll");
-	mvprintw(LINES - 2, 0, "Use Arrow Keys to navigate (F1 to Exit)");
-	attroff(COLOR_PAIR(2));
 	refresh();
 
 	/* Post the menu */
@@ -109,8 +87,6 @@ public:
 		refresh(); //for debugging
                 wrefresh(my_menu_win);
 	}	
-
-	//from tutorial
 	}
 
 	const charVectorVector& getBoard() const
@@ -154,6 +130,35 @@ private:
 		{
 		      my_items[i] = new_item(empty, empty);
 		}
+	}
+
+	void initializeNcursesMenu()
+	{
+		/* Crate menu */
+		my_menu = new_menu((ITEM **)my_items);
+
+		/* Set menu option not to show the description */
+		menu_opts_off(my_menu, O_SHOWDESC);
+
+		/* Create the window to be associated with the menu */
+		my_menu_win = newwin(5, 11, 2, 6);
+		keypad(my_menu_win, TRUE);
+
+		/* Set main window and sub window */
+		set_menu_win(my_menu, my_menu_win);
+		set_menu_sub(my_menu, derwin(my_menu_win, 3, 10, 1, 1));
+		set_menu_format(my_menu, 3, 3);
+
+		/* Print a border around the main window and print a title */
+		box(my_menu_win, 0, 0);
+	}
+
+	void initializeNcursesUserInstructions()
+	{
+		attron(COLOR_PAIR(2));
+		mvprintw(LINES - 3, 0, "Use PageUp and PageDown to scroll");
+		mvprintw(LINES - 2, 0, "Use Arrow Keys to navigate (F1 to Exit)");
+		attroff(COLOR_PAIR(2));
 	}
 
 	void destroyNcurses()
