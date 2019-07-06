@@ -1,14 +1,7 @@
 #include <Global/global.hpp>
 #include <ncurses.h>
-
-
-//from tutorial
-#include <ncurses.h>
 #include <menu.h>
 #include <string.h>
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-#define CTRLD 	4
-// from tutorial
 
 #pragma once
 
@@ -53,8 +46,6 @@ public:
 	void drawMenu()
 	{
 	//from tutorial
-	
-        //n_choices = ARRAY_SIZE(choices);
 
 	/* Crate menu */
 	my_menu = new_menu((ITEM **)my_items);
