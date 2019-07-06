@@ -26,7 +26,10 @@ public:
 
 	Board(unsigned int _boardSize = 3) : boardSize(_boardSize),
 					     board(charVectorVector(boardSize, charVector (boardSize, ' '))),
-					     lastTurnCharacter('x'){}
+					     lastTurnCharacter('x')
+	{
+		initializeNcurses();
+	}
 
 	void markField(Point point)
 	{
@@ -55,20 +58,10 @@ public:
 	void drawMenu()
 	{
 		//from tutorial
-	ITEM **my_items;
 	int c;				
-	MENU *my_menu;
-        WINDOW *my_menu_win;
         int n_choices, i;
 	
 	/* Initialize curses */
-	initscr();
-	start_color();
-        cbreak();
-        noecho();
-	keypad(stdscr, TRUE);
-	init_pair(1, COLOR_RED, COLOR_BLACK);
-	init_pair(2, COLOR_CYAN, COLOR_BLACK);
 
 	/* Create items */
         n_choices = ARRAY_SIZE(choices);
@@ -126,13 +119,7 @@ public:
 				break;
 			case MY_KEY_ENTER:
 				char* character;
-				//choices[0] = character;
 				ITEM * currentItem = current_item(my_menu);
- 				/*
-				ITEM * newItem = new_item(character, character);
-				if(NULL == newItem)
-					mvprintw(LINES - 5, 0, "wyjebalo item");
-				*/
 				if (currentItem->name.str!=NULL)
 				{
 					mvprintw(LINES - 6, 0, currentItem->name.str);
@@ -140,7 +127,6 @@ public:
 					currentItem->name.length = 1;
 					currentItem->name.str = character;
 				}
-
 				
 				errorCode = set_current_item(my_menu, currentItem);
 				switch(errorCode)
@@ -196,6 +182,20 @@ private:
 		std::cout << std::endl;
 	}
 
+	void initializeNcurses()
+	{
+		initscr();
+		start_color();
+		cbreak();
+		noecho();
+		keypad(stdscr, TRUE);
+		init_pair(1, COLOR_RED, COLOR_BLACK);
+		init_pair(2, COLOR_CYAN, COLOR_BLACK);
+	}
+
+	ITEM **my_items;
+	MENU *my_menu;
+        WINDOW *my_menu_win;
 	unsigned int boardSize;
 	charVectorVector board; 
 	char lastTurnCharacter;
