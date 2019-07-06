@@ -18,6 +18,7 @@ int main()
 	        std::cin >> userPoint.y;
 */
 		board.drawMenu();
+		board.play();
 /*
 		try
 		{

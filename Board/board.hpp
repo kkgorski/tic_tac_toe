@@ -47,12 +47,13 @@ public:
 
 	void drawMenu()
 	{
-	refresh();
+		refresh();
+		post_menu(my_menu);
+		wrefresh(my_menu_win);
+	}
 
-	/* Post the menu */
-	post_menu(my_menu);
-	wrefresh(my_menu_win);
-
+	void play()
+	{
 	int c;
 	while((c = wgetch(my_menu_win)) != KEY_F(1))
 	{       switch(c)
