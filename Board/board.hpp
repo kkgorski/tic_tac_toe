@@ -84,8 +84,6 @@ public:
 	post_menu(my_menu);
 	wrefresh(my_menu_win);
 
-	int errorCode = 0;
-	
 	int c;
 	while((c = wgetch(my_menu_win)) != KEY_F(1))
 	{       switch(c)
@@ -106,33 +104,13 @@ public:
 				menu_driver(my_menu, REQ_RIGHT_ITEM);
 				break;
 			case MY_KEY_ENTER:
-				char* character;
 				ITEM * currentItem = current_item(my_menu);
 				if (currentItem->name.str!=NULL)
 				{
 					mvprintw(LINES - 6, 0, currentItem->name.str);
-					character = strdup("x");
+					char* character = strdup("x");
 					currentItem->name.length = 1;
 					currentItem->name.str = character;
-				}
-				
-				errorCode = set_current_item(my_menu, currentItem);
-				switch(errorCode)
-				{
-					case E_BAD_ARGUMENT:
-						mvprintw(LINES - 5, 0, "E_BAD_ARGUMENT");
-						break;
-					case E_BAD_STATE:
-						mvprintw(LINES - 5, 0, "E_BAD_STATE");
-	    					break;
-					case E_NOT_CONNECTED:
-						mvprintw(LINES - 5, 0, "E_NOT_CONNECTED");
-						break;
-					case E_SYSTEM_ERROR:
-						mvprintw(LINES - 5, 0, "E_SYSTEM_ERROR");
-						break;
-					default:
-						break;
 				}
 				mvprintw(LINES - 4, 0, "ENTER");
 				break;
