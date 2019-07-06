@@ -9,11 +9,8 @@
 #define CTRLD 	4
 
 char *choices[] = {
-                        "Choice 1", "Choice 2", "Choice 3", "Choice 4", "Choice 5",
-			"Choice 6", "Choice 7", "Choice 8", "Choice 9", "Choice 10",
-			"Choice 11", "Choice 12", "Choice 13", "Choice 14", "Choice 15",
-			"Choice 16", "Choice 17", "Choice 18", "Choice 19", "Choice 20",
-                        "Exit",
+                        "1", "2", "3", "4", "5",
+			"6", "7", "8", "9",
                         (char *)NULL,
                   };
 // from tutorial
@@ -83,14 +80,13 @@ public:
 	menu_opts_off(my_menu, O_SHOWDESC);
 
 	/* Create the window to be associated with the menu */
-        my_menu_win = newwin(10, 70, 4, 4);
+	my_menu_win = newwin(5, 11, 2, 6);
         keypad(my_menu_win, TRUE);
      
 	/* Set main window and sub window */
         set_menu_win(my_menu, my_menu_win);
-        set_menu_sub(my_menu, derwin(my_menu_win, 6, 68, 3, 1));
-	set_menu_format(my_menu, 5, 3);
-	set_menu_mark(my_menu, " * ");
+        set_menu_sub(my_menu, derwin(my_menu_win, 3, 10, 1, 1));
+	set_menu_format(my_menu, 3, 3);
 
 	/* Print a border around the main window and print a title */
         box(my_menu_win, 0, 0);
