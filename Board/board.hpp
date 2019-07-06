@@ -33,6 +33,14 @@ public:
 		lastTurnCharacter = character;
 	}
 
+	void markComputersField(Point point)
+	{
+		markField(point);
+		const unsigned int itemIndex = point.x + boardSize * point.y;
+		ITEM * item = my_items[itemIndex];
+		setNcursesItem(item, "x");
+	}
+
 	void markField(const unsigned int itemIndex)
 	{
 		Point point;
@@ -84,17 +92,7 @@ public:
 					break;
 				case MY_KEY_ENTER:
 					ITEM * currentItem = current_item(my_menu);
-					if (currentItem->name.str!=NULL)
-					{
-						mvprintw(LINES - 6, 0, currentItem->name.str);
-						char* character = strdup("x");
-						currentItem->name.length = 1;
-						currentItem->name.str = character;
-
-						const unsigned int itemIdx = item_index(currentItem);
-						markField(itemIdx);
-						mvprintw(LINES - 4, 0, "ENTER %u", itemIdx);
-					}
+					setNcursesItem(currentItem, "x");
 					break;
 			}
 			refresh(); //for debugging
@@ -108,6 +106,21 @@ public:
 	}
 
 private:
+
+	void setNcursesItem(ITEM * item, const char* _character)
+	{
+		if (item->name.str!=NULL)
+		{
+			mvprintw(LINES - 6, 0, item->name.str);
+			char* character = strdup(_character);
+			item->name.length = 1;
+			item->name.str = character;
+
+			const unsigned int itemIdx = item_index(item);
+			markField(itemIdx);
+			mvprintw(LINES - 4, 0, "enter %u", itemIdx);
+		}
+	}
 
 	void drawRow(charVector row)
 	{
@@ -131,7 +144,6 @@ private:
 		keypad(stdscr, TRUE);
 		init_pair(1, COLOR_RED, COLOR_BLACK);
 		init_pair(2, COLOR_CYAN, COLOR_BLACK);
-
 	}
 
 	void initializeNcursesItems()
