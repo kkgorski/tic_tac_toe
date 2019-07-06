@@ -33,6 +33,14 @@ public:
 		lastTurnCharacter = character;
 	}
 
+	void markField(const unsigned int itemIndex)
+	{
+		Point point;
+		point.x = itemIndex % boardSize;
+		point.y = itemIndex / boardSize;
+		markField(point);
+	}
+
 	void drawScreen()
 	{
 		for(auto const& row: board)
@@ -82,8 +90,11 @@ public:
 						char* character = strdup("x");
 						currentItem->name.length = 1;
 						currentItem->name.str = character;
+
+						const unsigned int itemIdx = item_index(currentItem);
+						markField(itemIdx);
+						mvprintw(LINES - 4, 0, "ENTER %u", itemIdx);
 					}
-					mvprintw(LINES - 4, 0, "ENTER");
 					break;
 			}
 			refresh(); //for debugging
@@ -130,7 +141,8 @@ private:
 		my_items = (ITEM **)calloc(numOfBoardElements + 1, sizeof(ITEM *));
 		for(unsigned int i = 0; i < numOfBoardElements; ++i)
 		{
-		      my_items[i] = new_item(empty, empty);
+			const char * id = std::to_string(i).c_str();
+			my_items[i] = new_item(empty, id);
 		}
 	}
 
@@ -158,7 +170,6 @@ private:
 	void initializeNcursesUserInstructions()
 	{
 		attron(COLOR_PAIR(2));
-		mvprintw(LINES - 3, 0, "Use PageUp and PageDown to scroll");
 		mvprintw(LINES - 2, 0, "Use Arrow Keys to navigate (F1 to Exit)");
 		attroff(COLOR_PAIR(2));
 	}
