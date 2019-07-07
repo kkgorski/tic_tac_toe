@@ -17,9 +17,7 @@ public:
 			throw std::invalid_argument("Point coordinates out of range!!!\n\n");
 		}
 
-		const char character = (lastTurnCharacter == 'x') ? 'o' : 'x';
-		board[point.y][point.x] = character;
-		lastTurnCharacter = character;
+		board[point.y][point.x] = point.character;
 	}
 
 	void drawScreen()

@@ -11,5 +11,6 @@ struct Point
 {
 	unsigned int x;
 	unsigned int y;
+	char character;
 };
 

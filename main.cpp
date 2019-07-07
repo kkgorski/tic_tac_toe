@@ -9,6 +9,15 @@ int main()
 	Board board;
 	Point userPoint;
 
+	std::string userCharacter = " ";
+	std::cout << "Please choose you character to be 'x' or 'o'" << std::endl;
+	do
+	{
+	        std::cin >> userCharacter;
+		std::cout << std::endl;
+	}while(userCharacter != "x" && userCharacter != "o");
+	userPoint.character = userCharacter.c_str()[0];
+
 	while(true)
 	{
 	        std::cout << "Give me coordinate x" << std::endl;
@@ -31,6 +40,7 @@ int main()
 		Combinations combinations = Combinations(board.getBoard());
 		Solver solver = Solver(combinations.getCombinationList());
 		Point solverPoint = solver.primitiveSolve();
+		solverPoint.character = (userPoint.character == 'x') ? 'o' : 'x';
 
 	        std::cout << "Computer's coordinates are x:" << solverPoint.x << " y: " << solverPoint.y << std::endl;
 		board.markField(solverPoint);
