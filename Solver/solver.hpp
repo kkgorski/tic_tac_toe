@@ -5,16 +5,23 @@
 class Solver
 {
 public:
-	Solver(charVectorList _combinationList) : combinationList(_combinationList){}
+	Solver(charVectorList _combinationList, Board& _board) : combinationList(_combinationList), board(_board){}
 	Point primitiveSolve()
 	{
-		Point point;
-		const unsigned int boardSize = combinationList.front().size();
-		point.x = rand() % boardSize;
-		point.y = rand() % boardSize;
-		return point;
+		while(true)
+		{
+			Point point;
+			const unsigned int boardSize = combinationList.front().size();
+			point.x = rand() % boardSize;
+			point.y = rand() % boardSize;
+			if(board.getBoard()[point.y][point.x] == ' ')
+			{
+				return point;
+			}
+		}
 	}
 private:
 	charVectorList combinationList;
+	Board& board;
 };
 

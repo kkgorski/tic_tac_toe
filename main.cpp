@@ -46,7 +46,7 @@ void makeUserMove(char character, Board &board)
 void makeComputersMove(char character, Board& board)
 {
 	Combinations combinations = Combinations(board.getBoard());
-	Solver solver = Solver(combinations.getCombinationList());
+	Solver solver = Solver(combinations.getCombinationList(), board);
 	Point solverPoint = solver.primitiveSolve();
 	solverPoint.character = character;
 
