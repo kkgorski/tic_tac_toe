@@ -20,20 +20,24 @@ bool checkIfSomeoneWon(Combinations& combinations)
 
 void makeUserMove(char character, Board &board)
 {
-	Point userPoint;
-	userPoint.character = character;
-	std::cout << "Give me coordinate x" << std::endl;
-	std::cin >> userPoint.x;
-	std::cout << "Give me coordinate y" << std::endl;
-	std::cin >> userPoint.y;
+	while(true)
+	{
+		Point userPoint;
+		userPoint.character = character;
+		std::cout << "Give me coordinate x" << std::endl;
+		std::cin >> userPoint.x;
+		std::cout << "Give me coordinate y" << std::endl;
+		std::cin >> userPoint.y;
 
-	try
-	{
-		board.markField(userPoint);
-	}
-	catch(std::invalid_argument exception)
-	{
-		std::cerr << exception.what();
+		try
+		{
+			board.markField(userPoint);
+			break;
+		}
+		catch(std::invalid_argument exception)
+		{
+			std::cerr << exception.what();
+		}
 	}
 
 	board.drawScreen();

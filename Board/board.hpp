@@ -16,7 +16,10 @@ public:
 		{
 			throw std::invalid_argument("Point coordinates out of range!!!\n\n");
 		}
-
+		if(board[point.y][point.x] != ' ')
+		{
+			throw std::invalid_argument("This point is already marked!!!\n\n");
+		}
 		board[point.y][point.x] = point.character;
 	}
 
