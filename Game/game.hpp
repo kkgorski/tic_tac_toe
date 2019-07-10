@@ -71,7 +71,7 @@ private:
 		std::cout << "Computer's coordinates are x:" << solverPoint.x << " y: " << solverPoint.y << std::endl;
 		try
 		{
-		board.markField(solverPoint);
+			board.markField(solverPoint);
 		}
 		catch(std::invalid_argument exception)
 		{

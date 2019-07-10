@@ -5,9 +5,9 @@
 class Combinations  
 {
 public:
-	Combinations(unsigned int size) : boardSize(size), combinationList(){}
+	Combinations(charVectorVector& _rawBoard) : rawBoard(_rawBoard), boardSize(_rawBoard.front().size()), combinationList(){}
 
-	void update(charVectorVector board)
+	void update()
 	{
 		combinationList.clear();
 		for(unsigned int column = 0; column < boardSize; column++)
@@ -15,7 +15,7 @@ public:
 			charVector row;
 			for(unsigned int i = 0; i < boardSize; i++)
 			{
-				row.push_back(board[i][column]);
+				row.push_back(rawBoard[i][column]);
 			}
                         combinationList.push_back(row);
 		}
@@ -24,21 +24,21 @@ public:
 			charVector column;
 			for(unsigned int i = 0; i < boardSize; i++)
 			{
-				column.push_back(board[row][i]);
+				column.push_back(rawBoard[row][i]);
 			}
                         combinationList.push_back(column);
 		}
 		charVector diagonalA;
 		for(unsigned int i = 0; i < boardSize; i++)
 		{
-			diagonalA.push_back(board[i][i]);
+			diagonalA.push_back(rawBoard[i][i]);
 		}
 
                 combinationList.push_back(diagonalA);
 		charVector diagonalB;
 		for(unsigned int i = 0; i < boardSize; i++)
 		{
-			diagonalB.push_back(board[i][(boardSize - 1) - i]);
+			diagonalB.push_back(rawBoard[i][(boardSize - 1) - i]);
 		}
                 combinationList.push_back(diagonalB);
 	}
@@ -82,7 +82,7 @@ public:
 	}
 
 private:
-
+	charVectorVector& rawBoard;
 	const unsigned int boardSize;
 	charVectorList combinationList;
 };

@@ -8,8 +8,8 @@ class Board
 public:
 
 	Board(unsigned int _size = 3) : size(_size),
-					rawBoard(charVectorVector(size, charVector (size, ' '))),
-					boardCombinations(_size),
+					rawBoard(charVectorVector(size, charVector(size, ' '))),
+					boardCombinations(rawBoard),
 					lastTurnCharacter('x'){}
 
 	void markField(Point point)
@@ -23,7 +23,7 @@ public:
 			throw std::invalid_argument("This point is already marked!!!\n\n");
 		}
 		rawBoard[point.y][point.x] = point.character;
-		boardCombinations.update(rawBoard);
+		boardCombinations.update();
 	}
 
 	void drawScreen()
@@ -43,7 +43,7 @@ public:
 		return boardCombinations.checkIfCharacterWon(characterToWin);
 	}
 
-	const charVectorVector& getBoard() const
+	const charVectorVector& getRawBoard() const
 	{
 		return rawBoard;
 	}

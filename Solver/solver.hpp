@@ -14,7 +14,7 @@ public:
 			const unsigned int boardSize = board.getSize();
 			point.x = rand() % boardSize;
 			point.y = rand() % boardSize;
-			if(board.getBoard()[point.y][point.x] == ' ')
+			if(board.getRawBoard()[point.y][point.x] == ' ')
 			{
 				return point;
 			}
