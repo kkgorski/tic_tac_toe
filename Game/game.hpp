@@ -2,9 +2,17 @@
 #include <Board/board.hpp>
 #include <Solver/solver.hpp>
 
+enum LastTurn
+{
+	userTurn,
+	solverTurn
+};
+
 class Game
 {
 public:
+	Game() : board(), solver(board){}
+
 	void init()
 	{
 		std::string userInput= " ";
@@ -16,28 +24,44 @@ public:
 		}while(userInput != "x" && userInput != "o");
 		userCharacter = userInput.c_str()[0];
 		solverCharacter = (userCharacter == 'x') ? 'o' : 'x';
-
+		lastTurn = userTurn;
 	}
+
 	void run()
 	{
-		while(true)
+		while(!hasFinished())
 		{
-			makeUserMove();
+			makeMove();
 			board.drawScreen();
-			if(board.checkIfCharacterWon(userCharacter))
-			{
-				break;
-			}
-			makeSolverMove();
-			board.drawScreen();
-			if(board.checkIfCharacterWon(solverCharacter))
-			{
-				break;
-			}
 		}
 	}
 
 private:
+	void makeMove()
+	{
+		if(lastTurn == solverTurn)
+		{
+			makeUserMove();
+			lastTurn = userTurn;
+		}
+		else
+		{
+			makeSolverMove();
+			lastTurn = solverTurn;
+		}
+	}
+
+	bool hasFinished()
+	{
+		if(lastTurn == userTurn)
+		{
+			return board.checkIfCharacterWon(userCharacter);
+		}
+		else
+		{
+			return board.checkIfCharacterWon(solverCharacter);
+		}
+	}
 
 	void makeUserMove()
 	{
@@ -64,7 +88,6 @@ private:
 
 	void makeSolverMove()
 	{
-		Solver solver = Solver(board);
 		Point solverPoint = solver.primitiveSolve();
 		solverPoint.character = solverCharacter;
 
@@ -80,6 +103,8 @@ private:
 	}
 
 	Board board;
+	Solver solver;
+	LastTurn lastTurn;
 	char userCharacter;
 	char solverCharacter;
 };
