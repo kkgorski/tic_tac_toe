@@ -1,7 +1,6 @@
 #include <iostream>
 #include <Board/board.hpp>
 #include <Solver/solver.hpp>
-#include <Combinations/combinations.hpp>
 
 class Game
 {
@@ -24,14 +23,12 @@ public:
 		while(true)
 		{
 			makeUserMove(userCharacter, board);
-			Combinations combinations1 = Combinations(board.getBoard());
-			if(checkIfSomeoneWon(combinations1))
+			if(board.checkIfCharacterWon(userCharacter))
 			{
 				break;
 			}
 			makeComputersMove(solverCharacter, board);
-			Combinations combinations2 = Combinations(board.getBoard());
-			if(checkIfSomeoneWon(combinations2))
+			if(board.checkIfCharacterWon(solverCharacter))
 			{
 				break;
 			}
@@ -39,21 +36,6 @@ public:
 	}
 
 private:
-
-	bool checkIfSomeoneWon(Combinations& combinations)
-	{
-		if(combinations.checkIfxWon())
-		{
-			std::cout << "!!! x won !!!" << std::endl;
-			return true;
-		}
-		if(combinations.checkIfoWon())
-		{
-			std::cout << "!!! o won !!!" << std::endl;
-			return true;
-		}
-		return false;
-	}
 
 	void makeUserMove(char character, Board &board)
 	{
@@ -82,8 +64,7 @@ private:
 
 	void makeComputersMove(char character, Board& board)
 	{
-		Combinations combinations = Combinations(board.getBoard());
-		Solver solver = Solver(combinations.getCombinationList(), board);
+		Solver solver = Solver(board);
 		Point solverPoint = solver.primitiveSolve();
 		solverPoint.character = character;
 

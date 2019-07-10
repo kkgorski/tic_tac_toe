@@ -1,4 +1,5 @@
 #include <Global/global.hpp>
+#include <Combinations/combinations.hpp>
 
 #pragma once
 
@@ -6,38 +7,50 @@ class Board
 {
 public:
 
-	Board(unsigned int _boardSize = 3) : boardSize(_boardSize),
-					     board(charVectorVector(boardSize, charVector (boardSize, ' '))),
-					     lastTurnCharacter('x'){}
+	Board(unsigned int _size = 3) : size(_size),
+					rawBoard(charVectorVector(size, charVector (size, ' '))),
+					boardCombinations(_size),
+					lastTurnCharacter('x'){}
 
 	void markField(Point point)
 	{
-		if(point.x >= boardSize || point.y >= boardSize)
+		if(point.x >= size || point.y >= size)
 		{
 			throw std::invalid_argument("Point coordinates out of range!!!\n\n");
 		}
-		if(board[point.y][point.x] != ' ')
+		if(rawBoard[point.y][point.x] != ' ')
 		{
 			throw std::invalid_argument("This point is already marked!!!\n\n");
 		}
-		board[point.y][point.x] = point.character;
+		rawBoard[point.y][point.x] = point.character;
+		boardCombinations.update(rawBoard);
 	}
 
 	void drawScreen()
 	{
-		for(auto const& row: board)
+		for(auto const& row: rawBoard)
 		{
 		        drawRow(row);
-			if(&row != &board.back())
+			if(&row != &rawBoard.back())
 			{
 				std::cout << "-+-+-\n";
 			}
 		}
 	}
 
+	bool checkIfCharacterWon(char characterToWin)
+	{
+		return boardCombinations.checkIfCharacterWon(characterToWin);
+	}
+
 	const charVectorVector& getBoard() const
 	{
-		return board;
+		return rawBoard;
+	}
+
+	unsigned int getSize() const
+	{
+		return size;
 	}
 
 private:
@@ -55,8 +68,9 @@ private:
 		std::cout << std::endl;
 	}
 
-	unsigned int boardSize;
-	charVectorVector board; 
-	char lastTurnCharacter;
+	const unsigned int    size;
+	charVectorVector      rawBoard; 
+	Combinations          boardCombinations;
+	char                  lastTurnCharacter;
 };
 

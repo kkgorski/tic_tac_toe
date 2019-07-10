@@ -5,7 +5,9 @@
 class Combinations  
 {
 public:
-	Combinations(charVectorVector board) : boardSize(board.size())
+	Combinations(unsigned int size) : boardSize(size), combinationList(){}
+
+	void update(charVectorVector board)
 	{
 		combinationList.clear();
 		for(unsigned int column = 0; column < boardSize; column++)
@@ -53,22 +55,6 @@ public:
 		}
 	}
 
-	bool checkIfxWon()
-	{
-		return checkIfCharacterWon('x');
-	}
-
-	bool checkIfoWon()
-	{
-		return checkIfCharacterWon('o');
-	}
-
-	charVectorList getCombinationList()
-	{
-		return combinationList;
-	}
-
-private:
 	bool checkIfCharacterWon(char characterToWin)
 	{
 		bool won;
@@ -89,6 +75,14 @@ private:
 		}
 		return false;
 	}
+
+	charVectorList getCombinationList()
+	{
+		return combinationList;
+	}
+
+private:
+
 	const unsigned int boardSize;
 	charVectorList combinationList;
 };
