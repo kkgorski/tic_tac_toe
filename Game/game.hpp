@@ -22,12 +22,14 @@ public:
 	{
 		while(true)
 		{
-			makeUserMove(userCharacter, board);
+			makeUserMove();
+			board.drawScreen();
 			if(board.checkIfCharacterWon(userCharacter))
 			{
 				break;
 			}
-			makeComputersMove(solverCharacter, board);
+			makeSolverMove();
+			board.drawScreen();
 			if(board.checkIfCharacterWon(solverCharacter))
 			{
 				break;
@@ -37,12 +39,12 @@ public:
 
 private:
 
-	void makeUserMove(char character, Board &board)
+	void makeUserMove()
 	{
 		while(true)
 		{
 			Point userPoint;
-			userPoint.character = character;
+			userPoint.character = userCharacter;
 			std::cout << "Give me coordinate x" << std::endl;
 			std::cin >> userPoint.x;
 			std::cout << "Give me coordinate y" << std::endl;
@@ -58,15 +60,13 @@ private:
 				std::cerr << exception.what();
 			}
 		}
-
-		board.drawScreen();
 	}
 
-	void makeComputersMove(char character, Board& board)
+	void makeSolverMove()
 	{
 		Solver solver = Solver(board);
 		Point solverPoint = solver.primitiveSolve();
-		solverPoint.character = character;
+		solverPoint.character = solverCharacter;
 
 		std::cout << "Computer's coordinates are x:" << solverPoint.x << " y: " << solverPoint.y << std::endl;
 		try
@@ -77,8 +77,6 @@ private:
 		{
 			std::cerr << exception.what();
 		}
-
-		board.drawScreen();
 	}
 
 	Board board;
