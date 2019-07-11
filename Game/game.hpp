@@ -1,6 +1,7 @@
 #include <iostream>
 #include <Board/board.hpp>
 #include <Solver/solver.hpp>
+#include <Player/player.hpp>
 
 enum LastTurn
 {
@@ -11,7 +12,7 @@ enum LastTurn
 class Game
 {
 public:
-	Game() : board(), solver(board){}
+	Game() : board(){}
 
 	void init()
 	{
@@ -41,12 +42,32 @@ private:
 	{
 		if(lastTurn == solverTurn)
 		{
-			makeUserMove();
-			lastTurn = userTurn;
+			player = new UserPlayer(userCharacter);
+			while(true)
+			{
+				try
+				{
+					board.markField(player->getPoint());
+					lastTurn = userTurn;
+					break;
+				}
+				catch(std::invalid_argument exception)
+				{
+					std::cerr << exception.what();
+				}
+			}
 		}
 		else
 		{
-			makeSolverMove();
+			player = new SolverPlayer(solverCharacter, board);
+			try
+			{
+				board.markField(player->getPoint());
+			}
+			catch(std::invalid_argument exception)
+			{
+				std::cerr << exception.what();
+			}
 			lastTurn = solverTurn;
 		}
 	}
@@ -63,47 +84,8 @@ private:
 		}
 	}
 
-	void makeUserMove()
-	{
-		while(true)
-		{
-			Point userPoint;
-			userPoint.character = userCharacter;
-			std::cout << "Give me coordinate x" << std::endl;
-			std::cin >> userPoint.x;
-			std::cout << "Give me coordinate y" << std::endl;
-			std::cin >> userPoint.y;
-
-			try
-			{
-				board.markField(userPoint);
-				break;
-			}
-			catch(std::invalid_argument exception)
-			{
-				std::cerr << exception.what();
-			}
-		}
-	}
-
-	void makeSolverMove()
-	{
-		Point solverPoint = solver.primitiveSolve();
-		solverPoint.character = solverCharacter;
-
-		std::cout << "Computer's coordinates are x:" << solverPoint.x << " y: " << solverPoint.y << std::endl;
-		try
-		{
-			board.markField(solverPoint);
-		}
-		catch(std::invalid_argument exception)
-		{
-			std::cerr << exception.what();
-		}
-	}
-
+	Player* player;
 	Board board;
-	Solver solver;
 	LastTurn lastTurn;
 	char userCharacter;
 	char solverCharacter;
