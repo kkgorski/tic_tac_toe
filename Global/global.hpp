@@ -9,8 +9,8 @@ typedef std::vector<charVector> charVectorVector;
 
 struct Point
 {
-	unsigned int x;
-	unsigned int y;
-	char character;
+  unsigned int x;
+  unsigned int y;
+  char character;
 };
 

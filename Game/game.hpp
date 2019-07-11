@@ -5,88 +5,88 @@
 
 enum LastTurn
 {
-	userTurn,
-	solverTurn
+  userTurn,
+  solverTurn
 };
 
 class Game
 {
-public:
-	Game() : board(){}
+  public:
+    Game() : board(){}
 
-	void init()
+    void init()
+    {
+      std::string userInput= " ";
+      std::cout << "Please choose you character to be 'x' or 'o'" << std::endl;
+      do
+      {
+	std::cin >> userInput;
+	std::cout << std::endl;
+      }while(userInput != "x" && userInput != "o");
+      userCharacter = userInput.c_str()[0];
+      solverCharacter = (userCharacter == 'x') ? 'o' : 'x';
+      lastTurn = userTurn;
+    }
+
+    void run()
+    {
+      while(!hasFinished())
+      {
+	makeMove();
+	board.drawScreen();
+      }
+    }
+
+  private:
+    void makeMove()
+    {
+      if(lastTurn == solverTurn)
+      {
+	player = new UserPlayer(userCharacter);
+	while(true)
 	{
-		std::string userInput= " ";
-		std::cout << "Please choose you character to be 'x' or 'o'" << std::endl;
-		do
-		{
-			std::cin >> userInput;
-			std::cout << std::endl;
-		}while(userInput != "x" && userInput != "o");
-		userCharacter = userInput.c_str()[0];
-		solverCharacter = (userCharacter == 'x') ? 'o' : 'x';
-		lastTurn = userTurn;
+	  try
+	  {
+	    board.markField(player->getPoint());
+	    lastTurn = userTurn;
+	    break;
+	  }
+	  catch(std::invalid_argument exception)
+	  {
+	    std::cerr << exception.what();
+	  }
 	}
-
-	void run()
+      }
+      else
+      {
+	player = new SolverPlayer(solverCharacter, board);
+	try
 	{
-		while(!hasFinished())
-		{
-			makeMove();
-			board.drawScreen();
-		}
+	  board.markField(player->getPoint());
 	}
-
-private:
-	void makeMove()
+	catch(std::invalid_argument exception)
 	{
-		if(lastTurn == solverTurn)
-		{
-			player = new UserPlayer(userCharacter);
-			while(true)
-			{
-				try
-				{
-					board.markField(player->getPoint());
-					lastTurn = userTurn;
-					break;
-				}
-				catch(std::invalid_argument exception)
-				{
-					std::cerr << exception.what();
-				}
-			}
-		}
-		else
-		{
-			player = new SolverPlayer(solverCharacter, board);
-			try
-			{
-				board.markField(player->getPoint());
-			}
-			catch(std::invalid_argument exception)
-			{
-				std::cerr << exception.what();
-			}
-			lastTurn = solverTurn;
-		}
+	  std::cerr << exception.what();
 	}
+	lastTurn = solverTurn;
+      }
+    }
 
-	bool hasFinished()
-	{
-		if(lastTurn == userTurn)
-		{
-			return board.checkIfCharacterWon(userCharacter);
-		}
-		else
-		{
-			return board.checkIfCharacterWon(solverCharacter);
-		}
-	}
+    bool hasFinished()
+    {
+      if(lastTurn == userTurn)
+      {
+	return board.checkIfCharacterWon(userCharacter);
+      }
+      else
+      {
+	return board.checkIfCharacterWon(solverCharacter);
+      }
+    }
 
-	Player* player;
-	Board board;
-	LastTurn lastTurn;
-	char userCharacter;
-	char solverCharacter;
+    Player* player;
+    Board board;
+    LastTurn lastTurn;
+    char userCharacter;
+    char solverCharacter;
 };
