@@ -3,12 +3,6 @@
 #include <Solver/solver.hpp>
 #include <Player/player.hpp>
 
-enum LastTurn
-{
-  userTurn,
-  solverTurn
-};
-
 class Game
 {
   public:
@@ -26,67 +20,41 @@ class Game
       userCharacter = userInput.c_str()[0];
       solverCharacter = (userCharacter == 'x') ? 'o' : 'x';
       lastTurn = userTurn;
+      iPlayer = new IPlayer(userCharacter, solverCharacter, board, lastTurn);
     }
 
     void run()
     {
-      while(!hasFinished())
+      bool isFinished = false;
+      while(!isFinished)
       {
-	makeMove();
-	board.drawScreen();
+	isFinished = makeMove();
       }
     }
 
   private:
-    void makeMove()
+    bool makeMove()
     {
-      if(lastTurn == solverTurn)
+      Player* player = iPlayer->getPlayer();
+      while(true)
       {
-	player = new UserPlayer(userCharacter);
-	while(true)
-	{
-	  try
-	  {
-	    board.markField(player->getPoint());
-	    lastTurn = userTurn;
-	    break;
-	  }
-	  catch(std::invalid_argument exception)
-	  {
-	    std::cerr << exception.what();
-	  }
-	}
-      }
-      else
-      {
-	player = new SolverPlayer(solverCharacter, board);
 	try
 	{
 	  board.markField(player->getPoint());
+	  break;
 	}
 	catch(std::invalid_argument exception)
 	{
 	  std::cerr << exception.what();
 	}
-	lastTurn = solverTurn;
       }
+      board.drawScreen();
+      return board.checkIfCharacterWon(player->getCharacter());
     }
 
-    bool hasFinished()
-    {
-      if(lastTurn == userTurn)
-      {
-	return board.checkIfCharacterWon(userCharacter);
-      }
-      else
-      {
-	return board.checkIfCharacterWon(solverCharacter);
-      }
-    }
-
-    Player* player;
     Board board;
     LastTurn lastTurn;
     char userCharacter;
     char solverCharacter;
+    IPlayer * iPlayer;
 };

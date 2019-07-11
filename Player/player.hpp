@@ -7,6 +7,10 @@ class Player
     }
 
     virtual Point getPoint() = 0;
+    virtual char getCharacter()
+    {
+      return point.character;
+    }
   protected:
     Point point;
 };
@@ -45,3 +49,29 @@ class UserPlayer : public Player
       return userPoint;
     }
 };
+
+class IPlayer
+{
+  public:
+  IPlayer(char userCharacter, char solverCharacter, Board& board, LastTurn _lastTurn) :
+	  solverPlayer(solverCharacter, board), userPlayer(userCharacter), lastTurn(_lastTurn){}
+
+  Player* getPlayer()
+  {
+    if(lastTurn == solverTurn)
+    {
+      lastTurn = userTurn;
+      return reinterpret_cast<Player *>(&userPlayer);
+    }
+    else
+    {
+      lastTurn = solverTurn;
+      return reinterpret_cast<Player *>(&solverPlayer);
+    }
+  }
+  private:
+  SolverPlayer solverPlayer;
+  UserPlayer   userPlayer;
+  LastTurn     lastTurn;
+};
+
