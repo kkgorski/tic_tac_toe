@@ -14,9 +14,3 @@ struct Point
   char character;
 };
 
-enum LastTurn
-{
-  userTurn,
-  solverTurn
-};
-

@@ -50,28 +50,41 @@ class UserPlayer : public Player
     }
 };
 
-class IPlayer
+class Players
 {
   public:
-  IPlayer(char userCharacter, char solverCharacter, Board& board, LastTurn _lastTurn) :
-	  solverPlayer(solverCharacter, board), userPlayer(userCharacter), lastTurn(_lastTurn){}
-
-  Player* getPlayer()
+  Players(char userCharacter, char solverCharacter, Board& board) :
+	  solverPlayer(solverCharacter, board), userPlayer(userCharacter)
   {
-    if(lastTurn == solverTurn)
+    if(userPlayer.getCharacter() == 'o')
     {
-      lastTurn = userTurn;
-      return reinterpret_cast<Player *>(&userPlayer);
+      player = reinterpret_cast<Player*>(&userPlayer);
     }
     else
     {
-      lastTurn = solverTurn;
-      return reinterpret_cast<Player *>(&solverPlayer);
+      player = reinterpret_cast<Player*>(&solverPlayer);
+    }
+  }
+
+  Player* getCurrentPlayer()
+  {
+    return player;
+  }
+
+  void switchToNextPlayer()
+  {
+    if(reinterpret_cast<Player*>(&solverPlayer) == player)
+    {
+      player = reinterpret_cast<Player*>(&userPlayer);
+    }
+    else
+    {
+      player = reinterpret_cast<Player*>(&solverPlayer);
     }
   }
   private:
+  Player*      player;
   SolverPlayer solverPlayer;
   UserPlayer   userPlayer;
-  LastTurn     lastTurn;
 };
 

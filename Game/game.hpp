@@ -7,6 +7,10 @@ class Game
 {
   public:
     Game() : board(){}
+    ~Game()
+    {
+      delete [] players;
+    }
 
     void init()
     {
@@ -19,15 +23,14 @@ class Game
       }while(userInput != "x" && userInput != "o");
       userCharacter = userInput.c_str()[0];
       solverCharacter = (userCharacter == 'x') ? 'o' : 'x';
-      lastTurn = userTurn;
-      iPlayer = new IPlayer(userCharacter, solverCharacter, board, lastTurn);
+      players = new Players(userCharacter, solverCharacter, board);
     }
 
     void run()
     {
       while(true)
       {
-        Player* player = iPlayer->getPlayer();
+        Player* player = players->getCurrentPlayer();
 	while(true)
 	{
 	  try
@@ -45,13 +48,13 @@ class Game
 	{
 	  break;
 	}
+	players->switchToNextPlayer();
       }
     }
 
   private:
     Board board;
-    LastTurn lastTurn;
     char userCharacter;
     char solverCharacter;
-    IPlayer * iPlayer;
+    Players* players;
 };
