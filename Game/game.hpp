@@ -25,33 +25,30 @@ class Game
 
     void run()
     {
-      bool isFinished = false;
-      while(!isFinished)
+      while(true)
       {
-	isFinished = makeMove();
+        Player* player = iPlayer->getPlayer();
+	while(true)
+	{
+	  try
+	  {
+	    board.markField(player->getPoint());
+	    break;
+	  }
+	  catch(std::invalid_argument exception)
+	  {
+	    std::cerr << exception.what();
+	  }
+	}
+	board.drawScreen();
+	if(board.checkIfCharacterWon(player->getCharacter()))
+	{
+	  break;
+	}
       }
     }
 
   private:
-    bool makeMove()
-    {
-      Player* player = iPlayer->getPlayer();
-      while(true)
-      {
-	try
-	{
-	  board.markField(player->getPoint());
-	  break;
-	}
-	catch(std::invalid_argument exception)
-	{
-	  std::cerr << exception.what();
-	}
-      }
-      board.drawScreen();
-      return board.checkIfCharacterWon(player->getCharacter());
-    }
-
     Board board;
     LastTurn lastTurn;
     char userCharacter;
