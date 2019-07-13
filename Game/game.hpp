@@ -1,9 +1,8 @@
-#include <iostream>
 #include <Board/board.hpp>
 #include <Solver/solver.hpp>
 #include <Player/player.hpp>
-
 class Game
+
 {
   public:
     Game() : board(){}
@@ -14,16 +13,7 @@ class Game
 
     void init()
     {
-      std::string userInput= " ";
-      std::cout << "Please choose you character to be 'x' or 'o'" << std::endl;
-      do
-      {
-	std::cin >> userInput;
-	std::cout << std::endl;
-      }while(userInput != "x" && userInput != "o");
-      userCharacter = userInput.c_str()[0];
-      solverCharacter = (userCharacter == 'x') ? 'o' : 'x';
-      players = new Players(userCharacter, solverCharacter, board);
+      players = new Players(board);
     }
 
     void run()
@@ -53,8 +43,6 @@ class Game
     }
 
   private:
-    Board board;
-    char userCharacter;
-    char solverCharacter;
-    Players* players;
+    Board         board;
+    Players*      players;
 };
