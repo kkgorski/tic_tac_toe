@@ -15,13 +15,17 @@ class UserInterface
 
       return userInput.c_str()[0];
     }
-    Point getUserPoint()
+    Point getUserPoint(unsigned int bound)
     {
       Point userPoint;
-      std::cout << "Give me coordinate x" << std::endl;
-      std::cin >> userPoint.x;
-      std::cout << "Give me coordinate y" << std::endl;
-      std::cin >> userPoint.y;
+      do
+      {
+	std::cout << "Give me coordinate x" << std::endl;
+	std::cin >> userPoint.x;
+	std::cout << "Give me coordinate y" << std::endl;
+	std::cin >> userPoint.y;
+      }while(!userPoint.isValid(bound));
+
       return userPoint;
     }
 };

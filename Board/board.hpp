@@ -6,7 +6,6 @@
 class Board
 {
   public:
-
     Board(unsigned int _size = 3) : size(_size),
     rawBoard(charVectorVector(size, charVector(size, ' '))),
     boardCombinations(rawBoard),
@@ -16,11 +15,11 @@ class Board
     {
       if(point.x >= size || point.y >= size)
       {
-        throw std::invalid_argument("Point coordinates out of range!!!\n\n");
+	throw std::invalid_argument("Point coordinates out of range!!!\n\n");
       }
       if(rawBoard[point.y][point.x] != ' ')
       {
-        throw std::invalid_argument("This point is already marked!!!\n\n");
+	throw std::invalid_argument("This point is already marked!!!\n\n");
       }
       rawBoard[point.y][point.x] = point.character;
       boardCombinations.update();
@@ -30,11 +29,11 @@ class Board
     {
       for(auto const& row: rawBoard)
       {
-        drawRow(row);
-        if(&row != &rawBoard.back())
-        {
-          std::cout << "-+-+-\n";
-        }
+	drawRow(row);
+	if(&row != &rawBoard.back())
+	{
+	  std::cout << "-+-+-\n";
+	}
       }
     }
 
@@ -59,17 +58,17 @@ class Board
     {
       for(auto const& character: row)
       {
-        std::cout << character; 
-        if(&character != &row.back())
-        {
-          std::cout << "|";
-        }
+	std::cout << character;
+	if(&character != &row.back())
+	{
+	  std::cout << "|";
+	}
       }
       std::cout << std::endl;
     }
 
     const unsigned int    size;
-    charVectorVector      rawBoard; 
+    charVectorVector      rawBoard;
     Combinations          boardCombinations;
     char                  lastTurnCharacter;
 };

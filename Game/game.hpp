@@ -18,14 +18,25 @@ class Game
 
     void run()
     {
-      while(true)
+      Player* player = players->getCurrentPlayer();
+      bool isFinished = false;
+      while(!isFinished)
       {
-        Player* player = players->getCurrentPlayer();
+        makeMove(player);
+        isFinished = didPlayerWon(player);
+	board.drawScreen();
+	player = players->switchToNextPlayer();
+      }
+    }
+
+    void makeMove(Player* player)
+    {
 	while(true)
 	{
+          Point point = player->getPoint();
 	  try
 	  {
-	    board.markField(player->getPoint());
+	    board.markField(point);
 	    break;
 	  }
 	  catch(std::invalid_argument exception)
@@ -33,12 +44,17 @@ class Game
 	    std::cerr << exception.what();
 	  }
 	}
-	board.drawScreen();
-	if(board.checkIfCharacterWon(player->getCharacter()))
-	{
-	  break;
-	}
-	players->switchToNextPlayer();
+    }
+
+    bool didPlayerWon(Player* player)
+    {
+      if(board.checkIfCharacterWon(player->getCharacter()))
+      {
+	return true;
+      }
+      else
+      {
+        return false;
       }
     }
 

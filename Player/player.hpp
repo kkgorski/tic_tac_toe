@@ -38,11 +38,11 @@ class SolverPlayer : public Player
 class UserPlayer : public Player
 {
   public:
-    UserPlayer() : Player(){}
+    UserPlayer(Board& _board) : Player(), board(_board){}
 
     virtual Point getPoint() override
     {
-      Point userPoint = userInterface.getUserPoint();
+      Point userPoint = userInterface.getUserPoint(board.getSize());
       userPoint.character = getCharacter();
 
       return userPoint;
@@ -56,12 +56,13 @@ class UserPlayer : public Player
 
   private:
     UserInterface userInterface;
+    Board& board;
 };
 
 class Players
 {
   public:
-  Players(Board& board) : solverPlayer(board), userPlayer()
+  Players(Board& board) : solverPlayer(board), userPlayer(board)
   {
     userPlayer.setCharacterFromUserInput();
     const char solverCharacter = (userPlayer.getCharacter() == 'o') ? 'x' : 'o';
@@ -74,7 +75,7 @@ class Players
     return player;
   }
 
-  void switchToNextPlayer()
+  Player* switchToNextPlayer()
   {
     if(reinterpret_cast<Player*>(&solverPlayer) == player)
     {
@@ -84,6 +85,7 @@ class Players
     {
       player = reinterpret_cast<Player*>(&solverPlayer);
     }
+    return player;
   }
   private:
   void setFirstPlayer()
