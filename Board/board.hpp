@@ -8,8 +8,7 @@ class Board
   public:
     Board(unsigned int _size = 3) : size(_size),
     rawBoard(charVectorVector(size, charVector(size, ' '))),
-    boardCombinations(rawBoard),
-    lastTurnCharacter('x'){}
+    boardCombinations(rawBoard){}
 
     void markField(Point point)
     {
@@ -23,18 +22,6 @@ class Board
       }
       rawBoard[point.y][point.x] = point.character;
       boardCombinations.update();
-    }
-
-    void drawScreen()
-    {
-      for(auto const& row: rawBoard)
-      {
-	drawRow(row);
-	if(&row != &rawBoard.back())
-	{
-	  std::cout << "-+-+-\n";
-	}
-      }
     }
 
     bool checkIfCharacterWon(char characterToWin)
@@ -54,22 +41,8 @@ class Board
 
   private:
 
-    void drawRow(charVector row)
-    {
-      for(auto const& character: row)
-      {
-	std::cout << character;
-	if(&character != &row.back())
-	{
-	  std::cout << "|";
-	}
-      }
-      std::cout << std::endl;
-    }
-
     const unsigned int    size;
     charVectorVector      rawBoard;
     Combinations          boardCombinations;
-    char                  lastTurnCharacter;
 };
 

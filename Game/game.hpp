@@ -24,7 +24,7 @@ class Game
       {
         makeMove(player);
         isFinished = didPlayerWon(player);
-	board.drawScreen();
+        userInterface.drawScreen(board.getRawBoard());
 	player = players->switchToNextPlayer();
       }
     }
@@ -61,4 +61,5 @@ class Game
   private:
     Board         board;
     Players*      players;
+    UserInterface userInterface;
 };

@@ -15,6 +15,7 @@ class UserInterface
 
       return userInput.c_str()[0];
     }
+
     Point getUserPoint(unsigned int bound)
     {
       Point userPoint;
@@ -27,6 +28,31 @@ class UserInterface
       }while(!userPoint.isValid(bound));
 
       return userPoint;
+    }
+
+    void drawScreen(const charVectorVector& rawBoard)
+    {
+      for(auto const& row: rawBoard)
+      {
+	drawRow(row);
+	if(&row != &rawBoard.back())
+	{
+	  std::cout << "-+-+-\n";
+	}
+      }
+    }
+
+    void drawRow(const charVector& row)
+    {
+      for(auto const& character: row)
+      {
+	std::cout << character;
+	if(&character != &row.back())
+	{
+	  std::cout << "|";
+	}
+      }
+      std::cout << std::endl;
     }
 };
 
